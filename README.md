@@ -36,6 +36,7 @@ A small REST API built with **Express.js** that lets users **create, retrieve, u
 ```
 .
 ├── App.js            # Express app, routes and server
+├── Group4C-Notes-API.postman_collection.json   # Postman requests and tests
 ├── .env              # Optional environment variables (PORT), not committed
 ├── package.json
 ├── package-lock.json
@@ -216,6 +217,15 @@ Response `200 OK`:
 
 ## Testing with Postman
 
+The repo includes a ready-made collection, [`Group4C-Notes-API.postman_collection.json`](Group4C-Notes-API.postman_collection.json), with every endpoint, example bodies and tests.
+
 1. Start the server with `node App.js`.
-2. For `POST` and `PUT` requests, set the body to **raw → JSON**.
-3. Try the endpoints above in order: create, get all, get one, update, delete.
+2. In Postman, click **Import** and choose the collection file.
+3. Open the collection and click **Run** to run every request in order, or send them one at a time.
+
+How it works:
+
+- The **Notes** folder runs create → get all → get one → update → delete. "Create a note" saves the new note's id in the `noteId` variable, which the later requests use.
+- The **Error cases** folder checks the 400 and 404 responses.
+- Each request has tests, so you can see straight away whether the API answered correctly.
+- The `baseUrl` variable is `http://localhost:5000`. If your server uses a different port (for example on a Mac, see above), change it in the collection's **Variables** tab.

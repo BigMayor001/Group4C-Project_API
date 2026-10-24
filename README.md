@@ -64,15 +64,17 @@ A small REST API built with **Express.js** that lets users **create, retrieve, u
    ```bash
    npm install
    ```
-4. (Optional) Create a `.env` file in the project root to change the port. If you skip this, the server uses port 3000:
+4. (Optional) Create a `.env` file in the project root to change the port. If you skip this, the server uses port 5000:
    ```
-   PORT=3000
+   PORT=5000
    ```
 5. Start the server:
    ```bash
    node App.js
    ```
-6. The API runs on `http://localhost:3000` (or the port in your `.env`).
+6. The API runs on `http://localhost:5000` (or the port in your `.env`).
+
+> **Mac users:** macOS uses port 5000 for AirPlay Receiver. If requests return `403 Forbidden` with no body, turn off **System Settings → General → AirDrop & Handoff → AirPlay Receiver**, or set a different `PORT` in your `.env`.
 
 ## Note Object
 
@@ -94,7 +96,7 @@ Example:
 
 ## API Endpoints
 
-Base URL: `http://localhost:3000`
+Base URL: `http://localhost:5000`
 
 | Method | Endpoint | Description |
 | --- | --- | --- |

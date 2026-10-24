@@ -2,7 +2,7 @@
 
 You can view and run the postman collection for this API by clicking on the link below.
 
-C:\Users\DELL\Desktop\MyProject\postman\collections\Notes API\
+API.postman_collection.json
 
 // How to use it:
 

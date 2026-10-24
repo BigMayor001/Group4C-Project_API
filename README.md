@@ -118,4 +118,102 @@ Request body:
 }
 ```
 
-Response `
+Response `201 Created`:
+
+```json
+{
+  "id": 1,
+  "title": "Meeting notes",
+  "content": "Discuss project deadline on Thursday"
+}
+```
+
+### 2. Get all notes
+
+**GET** `/notes`
+
+Response `200 OK`:
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Meeting notes",
+    "content": "Discuss project deadline on Thursday"
+  }
+]
+```
+
+Returns an empty array `[]` if there are no notes.
+
+### 3. Get one note
+
+**GET** `/notes/:id`
+
+Response `200 OK`:
+
+```json
+{
+  "id": 1,
+  "title": "Meeting notes",
+  "content": "Discuss project deadline on Thursday"
+}
+```
+
+### 4. Update a note
+
+**PUT** `/notes/:id`
+
+Send `title`, `content`, or both. Fields you leave out stay the same.
+
+Request body:
+
+```json
+{
+  "content": "Deadline moved to Friday"
+}
+```
+
+Response `200 OK`:
+
+```json
+{
+  "id": 1,
+  "title": "Meeting notes",
+  "content": "Deadline moved to Friday"
+}
+```
+
+### 5. Delete a note
+
+**DELETE** `/notes/:id`
+
+Response `200 OK`:
+
+```json
+{
+  "message": "Note deleted",
+  "note": {
+    "id": 1,
+    "title": "Meeting notes",
+    "content": "Deadline moved to Friday"
+  }
+}
+```
+
+## Error Responses
+
+| Status | When | Example body |
+| --- | --- | --- |
+| `400 Bad Request` | `title` or `content` is missing, empty, or not a string | `{"errors": ["title is required", "content must be a non-empty string"]}` |
+| `400 Bad Request` | `PUT` with neither `title` nor `content` | `{"errors": ["Provide title and/or content to update"]}` |
+| `400 Bad Request` | Request body is not valid JSON | `{"error": "Invalid JSON in request body"}` |
+| `404 Not Found` | No note with that ID | `{"error": "Note with id 5 not found"}` |
+| `404 Not Found` | Route does not exist | `{"error": "Route not found"}` |
+| `500 Internal Server Error` | Unexpected server error | `{"error": "Something went wrong"}` |
+
+## Testing with Postman
+
+1. Start the server with `node App.js`.
+2. For `POST` and `PUT` requests, set the body to **raw → JSON**.
+3. Try the endpoints above in order: create, get all, get one, update, delete.

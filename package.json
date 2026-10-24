@@ -1,9 +1,11 @@
 {
   "name": "group4c-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Building an API that allows users to create, retrieve, update and delete text notes.",
   "main": "App.js",
   "scripts": {
+    "start": "node App.js",
+    "dev": "nodemon App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

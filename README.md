@@ -6,14 +6,10 @@ A small REST API built with **Express.js** that lets users **create, retrieve, u
 
 ## Team
 
-| Name | GitHub |
-| --- | --- |
-| Repo owner | [@BigMayor001](https://github.com/BigMayor001) |
-| Asah-cloud | [@Asah-cloud](https://github.com/Asah-cloud) |
-| Reuben Anaba Ayamga | [@ayamreuben](https://github.com/ayamreuben) |
-| mayesogie39-del | [@mayesogie39-del](https://github.com/mayesogie39-del) |
-| Paul Ngigi | [@paloxmah0](https://github.com/paloxmah0) |
-| Rdughan | [@Rdughan](https://github.com/Rdughan) |
+1. Asah Ayensu Isaac
+2. Aisosa May Esogie
+3. Paul Kaberere
+4. Oluwamayowa Sunmonu
 
 ## Features
 

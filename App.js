@@ -11,45 +11,40 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 let notes = [
-  { id: 1, title: 'Plan the project milestones', completed: true },
-  { id: 2, title: 'Gather requirements from the team', completed: true },
-  { id: 3, title: 'Create the project design', completed: false },
-  { id: 4, title: 'Set up the development environment', completed: false },
-  { id: 5, title: 'Build the main page', completed: true },
-  { id: 6, title: 'Add the required features', completed: false },
-  { id: 7, title: 'Test the application', completed: false },
-  { id: 8, title: 'Fix issues found during testing', completed: false },
-  { id: 9, title: 'Review the code with the team', completed: true },
-  { id: 10, title: 'Prepare the project for deployment', completed: false },
+  { id: 1, title: 'Create', content: 'Welcome to Text Notea API' },
+  { id: 2, title: 'Commit', content: 'Review and Submit project link' },
+
 ];
-// 1. CREATE a new Task
+// 1. CREATE a new Task (POST)
+
 app.post('/api/notes', (req, res) => {
-  const { title, completed } = req.body;
-  if (!title || !completed) {
-    return res.status(400).json({ error: 'Title and completion status are required' });
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Title and content are required' });
   }
 
   const newNote = {
     id: notes.length + 1,
     title,
-    completed,
+    content,
   };
 
   notes.push(newNote);
   res.status(201).json(newNote);
 });
 
-// 2. RETRIEVE all Tasks
+// 2. RETRIEVE all Tasks (GET All)
+
 app.get('/api/notes', (req, res) => {
   res.json(notes);
 });
 
-// 3. RETRIEVE a single Task by ID
+// 3. RETRIEVE a single Task by ID (GET ONE)
 app.get('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const note = notes.find(n => n.id === noteId);
   if (!note) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(404).json({ error: 'Title not found' });
   }
   res.json(note);
 });

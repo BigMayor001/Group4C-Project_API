@@ -1,4 +1,19 @@
-// API Testing (POSTMAN)
+# Text Notes API Backend
+
+## Group Members
+* Oluwamayowa Sunmonu
+* Asah Ayensu Isaac
+* Aisosa May Esogie
+* Paul Kaberere
+
+## Features Completed
+* **POST** - Create a text note (fixed `req.body` bug)
+* **GET** - Retrieve all notes/single note
+* **PUT** - Update a note (Fixed `content` reference bug)
+* **DELETE** - Delete a note (Fixed lowercase `index` variable bug)
+
+
+
 
 You can view and run the postman collection for this API by clicking on the link below.
 

@@ -21,6 +21,10 @@ API.postman_collection.json
 
 // How to use it:
 
-1. copy the link above and paste on your browser or POSTMAN app.
-2. Fork or import the collection into your workspace.
-3. Make sure your local server is running ('npm run dev') before testing the endpoints!
+* copy the link above and paste on your browser or POSTMAN app.
+* Fork or import the collection into your workspace.
+* Make sure your local server is running ('npm run dev') before testing the endpoints!
+
+Localhost Link
+
+* http://localhost:3001/api/notes

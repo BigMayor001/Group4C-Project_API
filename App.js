@@ -6,13 +6,13 @@ const express = require('express');
   
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 
 let notes = [
-  { id: 1, title: 'Create', content: 'Welcome to Text Notea API' },
-  { id: 2, title: 'Commit', content: 'Review and Submit project link' },
+  { id: 1, title: 'Create', content: 'Welcome to Text Notes API', author: 'Four Members' },
+  { id: 2, title: 'Member', content: 'Get members to commit on repo', author: 'Four Members' },
 
 ];
 // 1. CREATE a new Task (POST)
@@ -59,7 +59,7 @@ app.put('/api/notes/:id', (req, res) => {
     return res.status(404).json({ error: 'Title not found' });
   }
 
-  const { title, completed } = req.body;
+  const { title, content } = req.body;
   if (note)note.title = title;
   if (note)note.content = content;
 

@@ -1,10 +1,11 @@
 require("dotenv") .config();
 
-const dotenv =require('dotenv');
+//const dotenv =require('dotenv');
 const express = require('express');
   
-const path = require('path');
+//const path = require('path');
 const app = express();
+
 const PORT = process.env.PORT;
 
 app.use(express.json());
@@ -14,18 +15,20 @@ let notes = [
   { id: 2, title: 'Member', content: 'Get members to commit on repo', author: 'Five Members' },
 
 ];
+let nextId = 3;//keeping IDs unique after deleting
 // 1. CREATE a new Task (POST)
 
 app.post('/api/notes', (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, author } = req.body;
   if (!title || !content) {
     return res.status(400).json({ error: 'Title and content are required' });
   }
 
   const newNote = {
-    id: notes.length + 1,
+    id: nextId++,
     title,
     content,
+    author: author || 'unknown',
   };
 
   notes.push(newNote);
@@ -44,7 +47,7 @@ app.get('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const note = notes.find(n => n.id === noteId);
   if (!note) {
-    return res.status(404).json({ error: 'Title not found' });
+    return res.status(404).json({ error: 'Note not found' });
   }
   res.json(note);
 });
@@ -55,12 +58,15 @@ app.put('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const note = notes.find(n => n.id === noteId);
   if (!note) {
-    return res.status(404).json({ error: 'Title not found' });
+    return res.status(404).json({ error: 'Note not found' });
   }
 
   const { title, content } = req.body;
-  if (note)note.title = title;
-  if (note)note.content = content;
+  if (!title && !content){
+    return res.status(400).json({error: 'Provide a title or content to update'});
+  }
+  if (title)note.title = title;
+  if (content)note.content = content;
 
   res.json(note);
  });
@@ -74,8 +80,8 @@ app.delete('/api/notes/:id', (req, res) => {
     return res.status(404).json({ error: 'Note not found' });
   }
 
-  notes.deleteNote = notes.splice(noteIndex, 1);
-  res.json({ message: 'Note deleted successfully', note: notes.deleteNote[0] });
+  const deleteNote = notes.splice(noteIndex, 1)[0];
+  res.json({ message: 'Note deleted successfully', note: deleteNote });
 });
 
 

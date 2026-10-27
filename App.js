@@ -40,6 +40,7 @@ app.get('/api/notes', (req, res) => {
 });
 
 // 3. RETRIEVE a single Task by ID (GET ONE)
+
 app.get('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const note = notes.find(n => n.id === noteId);
@@ -49,22 +50,24 @@ app.get('/api/notes/:id', (req, res) => {
   res.json(note);
 });
 
-// 4. UPDATE a Task by ID
+// 4. UPDATE a Task by ID (PUT)
+
 app.put('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const note = notes.find(n => n.id === noteId);
   if (!note) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(404).json({ error: 'Title not found' });
   }
 
   const { title, completed } = req.body;
   if (note)note.title = title;
-  if (note)note.completed = completed;
+  if (note)note.content = content;
 
   res.json(note);
  });
 
- // 5. DELETE a Task by ID
+ // 5. DELETE a Task by ID (DELETE)
+
 app.delete('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
   const noteIndex = notes.findIndex(n => n.id === noteId);
@@ -77,7 +80,7 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
         app.listen(PORT, () => { 
         console.log(`App is running on http://localhost:${PORT}`); 
 });  

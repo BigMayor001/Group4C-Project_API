@@ -85,7 +85,10 @@ app.delete('/api/notes/:id', (req, res) => {
 });
 
 
-const port = process.env.PORT;
-        app.listen(PORT, () => { 
-        console.log(`App is running on http://localhost:${PORT}`); 
-});  
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`App is running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

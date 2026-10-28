@@ -5,6 +5,7 @@
 * Asah Ayensu Isaac - 	@Asah-cloud
 * Aisosa May Esogie - @mayesogie39-del
 * Reuben Anaba Ayamga - @ayamreuben
+* Paul Kaberere - @palox
 
 ## Features Completed
 * **POST** - Create a text note (fixed `req.body` bug)

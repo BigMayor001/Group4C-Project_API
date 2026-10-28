@@ -11,8 +11,8 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 let notes = [
-  { id: 1, title: 'Create', content: 'Welcome to Text Notes API', author: 'Four Members' },
-  { id: 2, title: 'Member', content: 'Get members to commit on repo', author: 'Four Members' },
+  { id: 1, title: 'Create', content: 'Welcome to Text Notes API', author: 'Five Members' },
+  { id: 2, title: 'Member', content: 'Get members to commit on repo', author: 'Five Members' },
 
 ];
 let nextId = 3;//keeping IDs unique after deleting

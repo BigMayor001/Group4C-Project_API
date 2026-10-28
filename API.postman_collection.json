@@ -1,0 +1,335 @@
+{
+  "info": {
+    "name": "Group 4C Text Notes API",
+    "description": "Every endpoint of the Group 4C Text Notes API, with example bodies and tests.\n\nStart the server with `npm start` (or `node App.js`), then run the requests in order, or use the Collection Runner. \"Create a note\" saves the new note's id in the `noteId` variable, which the later requests use.\n\n`baseUrl` is `http://localhost:3001`. To test the live version instead, set it to `https://group4c-text-notes-api.onrender.com`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3001" },
+    { "key": "noteId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "Get all notes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notes",
+            "description": "Returns every note as an array."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create a note",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notes",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Meeting notes\",\n  \"content\": \"Deadline is Thursday\",\n  \"author\": \"Group 4C\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a note. `title` and `content` are required. `author` is optional and defaults to \"unknown\"."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+                  "const note = pm.response.json();",
+                  "pm.test('Returns the new note with an id', () => {",
+                  "  pm.expect(note.id).to.be.a('number');",
+                  "  pm.expect(note.title).to.eql('Meeting notes');",
+                  "  pm.expect(note.content).to.eql('Deadline is Thursday');",
+                  "  pm.expect(note.author).to.eql('Group 4C');",
+                  "});",
+                  "// Save the id for the requests that follow",
+                  "pm.collectionVariables.set('noteId', note.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create a note without author",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notes",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Shopping list\",\n  \"content\": \"Milk, bread, eggs\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Leaving out `author` is allowed; the API fills in \"unknown\"."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Author defaults to unknown', () => pm.expect(pm.response.json().author).to.eql('unknown'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get one note",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notes/{{noteId}}",
+            "description": "Returns the note with the given id."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns the requested note', () => {",
+                  "  pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('noteId')));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update a note",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/notes/{{noteId}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Deadline moved to Friday\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Updates a note. Send `title`, `content`, or both; fields you leave out stay the same."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Content is updated, title unchanged', () => {",
+                  "  const note = pm.response.json();",
+                  "  pm.expect(note.content).to.eql('Deadline moved to Friday');",
+                  "  pm.expect(note.title).to.eql('Meeting notes');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete a note",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notes/{{noteId}}",
+            "description": "Deletes the note and returns it."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Confirms the deletion', () => {",
+                  "  const body = pm.response.json();",
+                  "  pm.expect(body.message).to.eql('Note deleted successfully');",
+                  "  pm.expect(body.note.id).to.eql(Number(pm.collectionVariables.get('noteId')));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get the deleted note (404)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/notes/{{noteId}}",
+            "description": "After deleting, the same id is no longer found."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Says the note was not found', () => pm.expect(pm.response.json().error).to.eql('Note not found'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Error cases",
+      "item": [
+        {
+          "name": "Create with missing fields (400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notes",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"No content\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "`content` is missing, so the note is not created."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Explains what is required', () => pm.expect(pm.response.json().error).to.eql('Title and content are required'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update with empty body (400)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/notes/{{noteId}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a fresh note first (pre-request script), then sends an update with nothing to change."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// The note from the Notes folder was deleted, so make a new one to update",
+                  "pm.sendRequest({",
+                  "  url: pm.variables.get('baseUrl') + '/api/notes',",
+                  "  method: 'POST',",
+                  "  header: { 'Content-Type': 'application/json' },",
+                  "  body: { mode: 'raw', raw: JSON.stringify({ title: 'Temp', content: 'Temp' }) }",
+                  "}, (err, res) => pm.collectionVariables.set('noteId', res.json().id));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Says what to send', () => pm.expect(pm.response.json().error).to.eql('Provide a title or content to update'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update a note that does not exist (404)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/notes/99999",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Nothing here\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Says the note was not found', () => pm.expect(pm.response.json().error).to.eql('Note not found'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete a note that does not exist (404)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/notes/99999"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 404', () => pm.response.to.have.status(404));",
+                  "pm.test('Says the note was not found', () => pm.expect(pm.response.json().error).to.eql('Note not found'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid JSON (400)",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/notes",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{bad json",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "A body that is not valid JSON is rejected with 400."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

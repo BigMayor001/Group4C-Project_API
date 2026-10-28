@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001; // default to 3001 when .env has no PORT
 
 app.use(express.json());
 

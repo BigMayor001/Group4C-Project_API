@@ -4,7 +4,6 @@
 * Oluwamayowa Sunmonu - @BigMayor001(Repo Owner)
 * Asah Ayensu Isaac - 	@Asah-cloud
 * Aisosa May Esogie - @mayesogie39-del
-* Paul Kaberere - @paloxmah0
 * Reuben Anaba Ayamga - @ayamreuben
 
 ## Features Completed
@@ -17,7 +16,7 @@ You can view and run the postman collection for this API by
 
 # Postman Link
 
-* API.postman_collection.json
+* https://raw.githubusercontent.com/BigMayor001/Group4C-Project_API/main/API.postman_collection.json
 
 # Localhost Link
 
@@ -60,7 +59,7 @@ npm install
 PORT=3001
 
 Start the server:
-node App.js
+node app.js
 The API runs on http://localhost:3001 (or the port in your .env).
 
 Note Object
@@ -76,3 +75,11 @@ Example:
   "title": "Shopping list",
   "content": "Milk, Bread, Eggs Oat, Sardine"
 }
+
+Error Handling
+
+The API handles requests according to the validation and error-handling logic implemented in "app.js".
+
+When testing the API with Postman, check how it responds to invalid request data and requests for notes that do not exist.
+
+The response status codes and error messages depend on the application's implementation. All endpoints should be tested to confirm that they behave as expected.
